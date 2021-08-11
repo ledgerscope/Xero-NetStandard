@@ -26,35 +26,37 @@ namespace Xero.NetStandard.OAuth2.Client
         /// </summary>
         /// <param name="xeroConfig"></param>
         /// <param name="httpClient" description="optional"></param>
+        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient) 
+            : this(
+                  xeroConfig, 
+                  httpClient, 
+                  new Uri("https://login.xero.com/identity/connect/authorize"),
+                  new Uri("https://identity.xero.com/connect/token"),
+                  new Uri("https://identity.xero.com/connect/revocation"),
+                  new Uri("https://api.xero.com/connections")
+            )
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor, pass in xeroConfig and httpClient to generate the XeroClient. Can be used in conjunction with AddHttpClient extension of ServiceProvider for dependency injection
+        /// </summary>
+        /// <param name="xeroConfig"></param>
+        /// <param name="httpClient" description="optional"></param>
         /// <param name="baseAuthorizeUri" description="optional"></param>
-        /// <param name="baseTokenUri" description="optional"></param>
+        /// <param name="tokenUri" description="optional"></param>
         /// <param name="baseApiUri" description="optional"></param>
-        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient = null, Uri baseAuthorizeUri = null, Uri baseTokenUri = null, Uri baseApiUri = null)
+        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient, Uri baseAuthorizeUri, Uri tokenUri, Uri tokenRevocationUri, Uri baseApiUri)
         {
             xeroConfiguration = xeroConfig;
 
             _httpClient = httpClient ?? new HttpClient();
 
-            var authorizeUri = new Uri("https://login.xero.com/identity/connect/authorize");
-            var tokenUri = new Uri("https://identity.xero.com/connect/token");
-            var tokenRevocationUri = new Uri("https://identity.xero.com/connect/revocation");
-            var connectionsUri = new Uri("https://api.xero.com/connections");
-
-            _xeroAuthorizeUri = baseAuthorizeUri != null 
-                ? new RequestUrl(baseAuthorizeUri.GetLeftPart(UriPartial.Authority) + authorizeUri.AbsolutePath)
-                : new RequestUrl(authorizeUri.ToString());
-
-            _xeroTokenUri = baseTokenUri != null
-                ? new Uri(baseTokenUri.GetLeftPart(UriPartial.Authority) + tokenUri.AbsolutePath)
-                : new Uri(tokenUri.ToString());
-
-            _xeroTokenRevocationUri = baseTokenUri != null
-                ? new Uri(baseTokenUri.GetLeftPart(UriPartial.Authority) + tokenRevocationUri.AbsolutePath)
-                : new Uri(tokenRevocationUri.ToString());
-
-            _xeroConnectionsUri = baseApiUri != null
-                ? new Uri(baseApiUri.GetLeftPart(UriPartial.Authority) + connectionsUri.AbsolutePath)
-                : new Uri(connectionsUri.ToString());
+            _xeroAuthorizeUri = new RequestUrl(baseAuthorizeUri.ToString());
+            _xeroTokenUri = tokenUri;
+            _xeroTokenRevocationUri = tokenRevocationUri;
+            _xeroConnectionsUri = baseApiUri;
         }
 
         /// <summary>
