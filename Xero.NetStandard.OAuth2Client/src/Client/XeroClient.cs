@@ -25,38 +25,55 @@ namespace Xero.NetStandard.OAuth2.Client
         /// Constructor, pass in xeroConfig and httpClient to generate the XeroClient. Can be used in conjunction with AddHttpClient extension of ServiceProvider for dependency injection
         /// </summary>
         /// <param name="xeroConfig"></param>
-        /// <param name="httpClient" description="optional"></param>
-        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient) 
-            : this(
-                  xeroConfig, 
-                  httpClient, 
-                  new Uri("https://login.xero.com/identity/connect/authorize"),
-                  new Uri("https://identity.xero.com/connect/token"),
-                  new Uri("https://identity.xero.com/connect/revocation"),
-                  new Uri("https://api.xero.com/connections")
-            )
+        /// <param name="httpClient"></param>
+        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient)
         {
+            xeroConfiguration = xeroConfig;
+            _xeroAuthorizeUri = new RequestUrl("https://login.xero.com/identity/connect/authorize");
+            _xeroTokenUri = new Uri("https://identity.xero.com/connect/token");
+            _xeroTokenRevocationUri = new Uri("https://identity.xero.com/connect/revocation");
+            _xeroConnectionsUri = new Uri("https://api.xero.com/connections");
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        }
 
+        /// <summary>
+        /// Constructor, pass in xeroConfig to generate the XeroClient. Creates an HttpClient by default to use for requests
+        /// </summary>
+        /// <param name="xeroConfig"></param>
+        public XeroClient(XeroConfiguration xeroConfig) : this(xeroConfig, new HttpClient())
+        {
         }
 
         /// <summary>
         /// Constructor, pass in xeroConfig and httpClient to generate the XeroClient. Can be used in conjunction with AddHttpClient extension of ServiceProvider for dependency injection
         /// </summary>
         /// <param name="xeroConfig"></param>
-        /// <param name="httpClient" description="optional"></param>
-        /// <param name="baseAuthorizeUri" description="optional"></param>
-        /// <param name="tokenUri" description="optional"></param>
-        /// <param name="baseApiUri" description="optional"></param>
-        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient, Uri baseAuthorizeUri, Uri tokenUri, Uri tokenRevocationUri, Uri baseApiUri)
+        /// <param name="httpClient"></param>
+        /// <param name="authorizeUri"></param>
+        /// <param name="tokenUri"></param>
+        /// <param name="tokenRevocationUri"></param>
+        /// <param name="connectionsUri"></param>
+        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient, Uri authorizeUri, Uri tokenUri, Uri tokenRevocationUri, Uri connectionsUri)
         {
             xeroConfiguration = xeroConfig;
-
-            _httpClient = httpClient ?? new HttpClient();
-
-            _xeroAuthorizeUri = new RequestUrl(baseAuthorizeUri.ToString());
+            _xeroAuthorizeUri = new RequestUrl(authorizeUri.ToString());
             _xeroTokenUri = tokenUri;
             _xeroTokenRevocationUri = tokenRevocationUri;
-            _xeroConnectionsUri = baseApiUri;
+            _xeroConnectionsUri = connectionsUri;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        }
+
+        /// <summary>
+        /// Constructor, pass in xeroConfig to generate the XeroClient. Creates an HttpClient by default to use for requests
+        /// </summary>
+        /// <param name="xeroConfig"></param>
+        /// <param name="authorizeUri"></param>
+        /// <param name="tokenUri"></param>
+        /// <param name="tokenRevocationUri"></param>
+        /// <param name="connectionsUri"></param>
+        public XeroClient(XeroConfiguration xeroConfig, Uri authorizeUri, Uri tokenUri, Uri tokenRevocationUri, Uri connectionsUri) 
+            : this(xeroConfig, new HttpClient(), authorizeUri, tokenUri, tokenRevocationUri, connectionsUri)
+        {
         }
 
         /// <summary>
