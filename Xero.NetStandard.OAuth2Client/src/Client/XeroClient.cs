@@ -26,14 +26,15 @@ namespace Xero.NetStandard.OAuth2.Client
         /// </summary>
         /// <param name="xeroConfig"></param>
         /// <param name="httpClient"></param>
-        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient)
+        public XeroClient(XeroConfiguration xeroConfig, HttpClient httpClient) 
+            : this(
+                  xeroConfig, 
+                  httpClient, 
+                  new Uri("https://login.xero.com/identity/connect/authorize"), 
+                  new Uri("https://identity.xero.com/connect/token"),
+                  new Uri("https://identity.xero.com/connect/revocation"), 
+                  new Uri("https://api.xero.com/connections"))
         {
-            xeroConfiguration = xeroConfig;
-            _xeroAuthorizeUri = new RequestUrl("https://login.xero.com/identity/connect/authorize");
-            _xeroTokenUri = new Uri("https://identity.xero.com/connect/token");
-            _xeroTokenRevocationUri = new Uri("https://identity.xero.com/connect/revocation");
-            _xeroConnectionsUri = new Uri("https://api.xero.com/connections");
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         /// <summary>
