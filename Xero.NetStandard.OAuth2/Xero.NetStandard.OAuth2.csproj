@@ -1,38 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
-    <AssemblyName>Xero.NetStandard.OAuth2</AssemblyName>
-    <PackageId>Xero.NetStandard.OAuth2</PackageId>
-    <OutputType>Library</OutputType>
-    <Authors>Xero API</Authors>
-    <Company>Xero</Company>
-    <AssemblyTitle>OpenAPI Library</AssemblyTitle>
-    <Description>This is a .NETStandard SDK library, used to communicate with the Xero API using OAuth2.0. See https://github.com/XeroAPI/Xero-NetStandard for more information</Description>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-    <RootNamespace>Xero.NetStandard.OAuth2</RootNamespace>
-    <Version>3.19.0</Version>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Xero.NetStandard.OAuth2.xml</DocumentationFile>
-    <PackageLicenseUrl>https://github.com/XeroAPI/Xero-NetStandard/</PackageLicenseUrl>
-    <PackageIconUrl>https://en.gravatar.com/userimage/180557955/74b3a957d886bc921b0d1455beed9dab.png</PackageIconUrl>
-    <Owners>Xero</Owners>
-    <Copyright>Copyright © Xero 2019</Copyright>
-    <PackageTags>xero;api;sdk;oauth2;oauth2.0</PackageTags>
-    <PackageDescription>This is a .NETStandard SDK library, used to communicate with the Xero API using OAuth2.0. See https://github.com/XeroAPI/Xero-NetStandard for more information</PackageDescription>
-  </PropertyGroup>
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+		<TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+		<AssemblyName>Xero.NetStandard.OAuth2</AssemblyName>
+		<PackageId>Xero.NetStandard.OAuth2</PackageId>
+		<OutputType>Library</OutputType>
+		<Authors>Xero API</Authors>
+		<Company>Xero</Company>
+		<AssemblyTitle>OpenAPI Library</AssemblyTitle>
+		<Description>This is a .NETStandard SDK library, used to communicate with the Xero API using OAuth2.0. See https://github.com/XeroAPI/Xero-NetStandard for more information</Description>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+		<RootNamespace>Xero.NetStandard.OAuth2</RootNamespace>
+		<Version>3.19.0</Version>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Xero.NetStandard.OAuth2.xml</DocumentationFile>
+		<PackageLicenseUrl>https://github.com/XeroAPI/Xero-NetStandard/</PackageLicenseUrl>
+		<PackageIconUrl>https://en.gravatar.com/userimage/180557955/74b3a957d886bc921b0d1455beed9dab.png</PackageIconUrl>
+		<Owners>Xero</Owners>
+		<Copyright>Copyright © Xero 2019</Copyright>
+		<PackageTags>xero;api;sdk;oauth2;oauth2.0</PackageTags>
+		<PackageDescription>This is a .NETStandard SDK library, used to communicate with the Xero API using OAuth2.0. See https://github.com/XeroAPI/Xero-NetStandard for more information</PackageDescription>
+	</PropertyGroup>
 
-  <ItemGroup>
-      <PackageReference Include="CompareNETObjects" Version="4.57.0" />
-      <PackageReference Include="JsonSubTypes" Version="1.5.2" />
-      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-      <PackageReference Include="RestSharp" Version="106.11.4" />
-      <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<EmbedAllSources>true</EmbedAllSources>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CompareNETObjects" Version="4.57.0" />
+		<PackageReference Include="JsonSubTypes" Version="1.5.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+		<PackageReference Include="RestSharp" Version="106.11.4" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+	</ItemGroup>
 
 
 </Project>
